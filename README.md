@@ -6,6 +6,13 @@
 ![Platform - Android and iOS](https://img.shields.io/badge/platform-Android%20%7C%20iOS-yellow.svg)
 [![Gitter chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/react-native-image-picker/Lobby)
 
+## Changes between this repo and the community package
+
+- Android: Implement a fix for Android on the latest version of this lirbary (as of 11/06/18). This fix splits permission requests for Android to only request permissions for gallery when the user prompts to select an image from the gallery. Without the fix, the user is prompted for both gallery and camera permissions (if this has not been previously given). This fix exists in an older fork of this library: [see commit here](https://github.com/fearmear/react-native-image-picker/commit/e90802ecf1a28cc9ac269368a6d5f6480930d90d).
+- Android: Save images to cache folder instead of saving to camera roll.
+
+---
+
 A React Native module that allows you to use native UI to select a photo/video from the device library or directly from the camera, like so:
 
 | iOS                                                                                                                   | Android                                                                                                                       |
