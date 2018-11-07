@@ -37,9 +37,7 @@ import static com.imagepicker.ImagePickerModule.REQUEST_LAUNCH_IMAGE_CAPTURE;
 
 public class MediaUtils
 {
-    public static @Nullable File createNewFile(@NonNull final Context reactContext,
-                                               @NonNull final ReadableMap options,
-                                               @NonNull final boolean forceLocal)
+    public static @Nullable File createNewFile(@NonNull final Context reactContext)
     {
         final String fileName = new StringBuilder("image-")
                 .append(UUID.randomUUID().toString())
@@ -50,7 +48,7 @@ public class MediaUtils
 
         try
         {
-            result = new File(path, filename);
+            result = File.createTempFile(fileName, null, reactContext.getCacheDir());        
         }
         catch (IOException e)
         {
