@@ -4,4 +4,5 @@
   <external-path name="shared" path="."/>
   <external-files-path name="shared" path="."/>
   <root-path name="root" path="."/>
+  <cache-path name="app_images" path="."/>
 </paths>
