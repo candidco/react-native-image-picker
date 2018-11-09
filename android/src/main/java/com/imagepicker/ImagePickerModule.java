@@ -589,53 +589,24 @@ public class ImagePickerModule extends ReactContextBaseJavaModule
 
     if (!permissionsGranted)
     {
-      final Boolean dontAskAgain = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) && ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA);
-
+      boolean dontAskAgain = false;
+      switch (requestCode) {
+        case REQUEST_PERMISSIONS_FOR_LIBRARY:
+          dontAskAgain = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ;
+          break;
+        case REQUEST_PERMISSIONS_FOR_CAMERA:
+          dontAskAgain = ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA);
+          break;
+      }
       if (dontAskAgain)
       {
-        final AlertDialog dialog = PermissionUtils
-                .explainingDialog(this, options, new PermissionUtils.OnExplainingPermissionCallback()
-                {
-                  @Override
-                  public void onCancel(WeakReference<ImagePickerModule> moduleInstance,
-                                       DialogInterface dialogInterface)
-                  {
-                    final ImagePickerModule module = moduleInstance.get();
-                    if (module == null)
-                    {
-                      return;
-                    }
-                    module.doOnCancel();
-                  }
-
-                  @Override
-                  public void onReTry(WeakReference<ImagePickerModule> moduleInstance,
-                                      DialogInterface dialogInterface)
-                  {
-                    final ImagePickerModule module = moduleInstance.get();
-                    if (module == null)
-                    {
-                      return;
-                    }
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    Uri uri = Uri.fromParts("package", module.getContext().getPackageName(), null);
-                    intent.setData(uri);
-                    final Activity innerActivity = module.getActivity();
-                    if (innerActivity == null)
-                    {
-                      return;
-                    }
-                    innerActivity.startActivityForResult(intent, 1);
-                  }
-                });
-        if (dialog != null) {
-          dialog.show();
+        if (callback != null) {
+          responseHelper.invokePermissionDenied(callback);
         }
         return false;
       }
       else
       {
-        // String[] PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
         String[] PERMISSIONS;
         switch (requestCode) {
           case REQUEST_PERMISSIONS_FOR_LIBRARY:

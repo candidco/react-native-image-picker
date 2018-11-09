@@ -71,6 +71,13 @@ public class ResponseHelper
         invokeResponse(callback);
     }
 
+    public void invokePermissionDenied(@NonNull final Callback callback)
+    {
+        cleanResponse();
+        response.putBoolean("permissionDenied", true);
+        invokeResponse(callback);
+    }
+
     public void invokeResponse(@NonNull final Callback callback)
     {
         if (callback == null) {
